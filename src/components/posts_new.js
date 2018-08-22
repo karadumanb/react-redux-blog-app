@@ -12,14 +12,20 @@ class PostsNew extends Component {
                     type="text"
                     {...field.input}
                 />
-                {field.meta.error}
+                {field.meta.touched ? field.meta.error : ''}
             </div>
         );
     }
 
+    onSubmit(values) {
+        console.log(values);
+    }
+
     render() {
+        const { handleSubmit } = this.props;
+
         return(
-            <form>
+            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                 <Field 
                     label="Title"
                     name="title"
@@ -35,13 +41,13 @@ class PostsNew extends Component {
                     name="content"
                     component={this.renderField}
                 />
+                <button type="submit" className="btn btn-primary">Save</button>
             </form>
         );
     }
 }
 
 function validate(values) {
-    console.log(values);
     const err = {};
 
     if(!values.title || values.title.length === 0) {
